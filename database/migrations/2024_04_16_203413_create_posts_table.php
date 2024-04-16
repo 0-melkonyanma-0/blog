@@ -16,8 +16,8 @@ return new class extends Migration {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('description');
-            $table->foreignIdFor(User::class)->constrained();
+            $table->text('body');
+            $table->foreignIdFor(User::class, 'author_id')->constrained();
             $table->timestamps();
         });
     }
