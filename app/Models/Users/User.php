@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Models;
+namespace App\Models\Users;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -19,7 +19,8 @@ class User extends Authenticatable implements JWTSubject
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'username',
+        'full_name',
         'email',
         'password',
     ];
@@ -53,7 +54,7 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
-     * @return array<empty>
+     * @return array
      */
     public function getJWTCustomClaims(): array
     {
