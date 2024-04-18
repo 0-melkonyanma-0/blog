@@ -1,19 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DTO\Users;
 
-use Spatie\LaravelData\Attributes\MapName;
 use Spatie\LaravelData\Data;
-use Spatie\LaravelData\Mappers\SnakeCaseMapper;
 
-#[MapName(SnakeCaseMapper::class)]
 class UserRequestDto extends Data
 {
+    /**
+     * @param string $full_name
+     * @param string $username
+     * @param string $email
+     * @param string $password
+     */
     public function __construct(
-        string $fullName,
-        string $username,
-        string $email,
-        string $password
+        public readonly string $full_name,
+        public readonly string $username,
+        public readonly string $email,
+        public readonly string $password
     ) {
     }
 }

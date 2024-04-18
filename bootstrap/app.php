@@ -5,14 +5,37 @@ declare(strict_types=1);
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\Request;
+use PHPOpenSourceSaver\JWTAuth\Exceptions\JWTException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
-        web: __DIR__.'/../routes/web.php',
         api: __DIR__.'/../routes/api.php',
-        commands: __DIR__.'/../routes/console.php',
         health: '/up',
     )
+    ->withExceptions(function (Exceptions $exceptions) {
+        $exceptions->render(function (JWTException $e, Request $request) {
+            if ($request->is('api/*', 'up')) {
+                return response()->json([
+                    'message' => 'Not authorized',
+                ], 401);
+            }
+
+            return response()->json([]);
+        });
+
+        $exceptions->render(function (MethodNotAllowedHttpException $e, Request $request) {
+            if ($request->is('api/*', 'up')) {
+                return response()->json([
+                    'message' => $e->getMessage(),
+                ], 405);
+            }
+
+            return response()->json([]);
+        });
+    })
     ->withMiddleware(function (Middleware $middleware) {
         //
     })
