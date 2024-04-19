@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Auth;
 
+use App\DTO\Users\UserSimpleDto;
 use Illuminate\Http\JsonResponse;
 
 class LoginController extends GenerateToken
@@ -17,6 +18,11 @@ class LoginController extends GenerateToken
         }
 
         return $this->responseWithToken($token);
+    }
+
+    public function currentUser(): JsonResponse
+    {
+        return response()->json(UserSimpleDto::from(auth()->user()));
     }
 
     public function refresh(): JsonResponse

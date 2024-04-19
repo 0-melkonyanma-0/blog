@@ -49,6 +49,11 @@ class User extends Authenticatable implements JWTSubject
         ];
     }
 
+    public function getRouteKeyName(): string
+    {
+        return 'username';
+    }
+
     public function getJWTIdentifier()
     {
         return $this->getKey();
