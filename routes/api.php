@@ -16,8 +16,7 @@ Route::group([
         Route::post('logout', [LogoutController::class, 'logout']);
         Route::get('current-user', [LoginController::class, 'currentUser']);
     });
-    Route::resource('users', UserController::class)->except(['store', 'create', 'show']);
-    Route::get('users/{user:username}', [UserController::class, 'show']);
+    Route::resource('users', UserController::class)->except(['store', 'create']);
 });
 
 Route::group([
