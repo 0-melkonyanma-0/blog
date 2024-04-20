@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Users;
 use App\DTO\Users\UserRequestDto;
 use App\DTO\Users\UserSimpleDto;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Users\UserRequest;
 use App\Models\Users\User;
 use App\Services\Users\UserService;
 use Illuminate\Contracts\Pagination\CursorPaginator;
@@ -40,7 +41,7 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UserRequestDto $request, User $user): JsonResponse
+    public function update(UserRequest $request, User $user): JsonResponse
     {
         return response()->json(
             [
