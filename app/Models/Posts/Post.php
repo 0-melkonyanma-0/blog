@@ -4,17 +4,31 @@ declare(strict_types=1);
 
 namespace App\Models\Posts;
 
+use App\Models\Users\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property int $id
+ * @property string $title
+ * @property string $body
+ * @property string $cover
+ * @method static create(array $toArray)
+ */
 class Post extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'cover',
         'title',
-        'description',
+        'body',
+        'cover',
         'author_id',
     ];
+
+    public function author(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'author_id');
+    }
 }

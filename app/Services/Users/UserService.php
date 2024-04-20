@@ -14,26 +14,25 @@ class UserService
     /**
      * @return array<string|int,string>
      */
-    public function index(): array
+    public function all(): array
     {
         return [
             'data' => UserSimpleDto::collect(User::all())
         ];
     }
 
-    public function show(User $user): UserSimpleDto
+    public function element(User $user): UserSimpleDto
     {
         return UserSimpleDto::from($user);
     }
 
-    public function update(UserRequestDto $userRequestDto, User $user): int
+    public function updateElement(UserRequestDto $userRequestDto, User $user): int
     {
-        $user->update();
-
+        $user->update($userRequestDto->toArray());
         return $user->id;
     }
 
-    public function delete(User $user): ?bool
+    public function deleteElement(User $user): ?bool
     {
         return $user->delete();
     }
