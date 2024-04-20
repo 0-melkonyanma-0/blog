@@ -16,39 +16,46 @@ class UserController extends Controller
 {
     public function __construct(
         private readonly UserService $userService
-    )
-    {
-    }
-
-    public function index(): JsonResponse
-    {
-        return response()->json($this->userService->index());
-    }
-
-    public function show(User $user): UserSimpleDto
-    {
-        return $this->userService->show($user);
+    ) {
     }
 
     /**
-     * Update the specified resource in storage.
+     * @return JsonResponse
+     */
+    public function index(): JsonResponse
+    {
+        return response()->json($this->userService->all());
+    }
+
+    /**
+     * @param User $user
+     * @return UserSimpleDto
+     */
+    public function show(User $user): UserSimpleDto
+    {
+        return $this->userService->element($user);
+    }
+
+    /**
+     * @param UserRequest $request
+     * @param User $user
+     * @return JsonResponse
      */
     public function update(UserRequest $request, User $user): JsonResponse
     {
-        return response()->json(
-            [
-                'id' => $this->userService->update(UserRequestDto::from($request), $user)
-            ]
-        );
+        return response()->json([
+                'id' => $this->userService->updateElement(UserRequestDto::from($request), $user)
+            ]);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @param User $user
+     * @return JsonResponse
      */
     public function destroy(User $user): JsonResponse
     {
         return response()->json([
-            'success' => $this->userService->delete($user)
+            'success' => $this->userService->deleteElement($user)
         ]);
     }
 }
