@@ -26,8 +26,8 @@ class PostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string|max:255',
-            'body' => 'required|string|max:4096',
+            'title' => 'required|bail|string|max:255',
+            'body' => 'required|bail|string|max:4096',
             'cover' => 'nullable|url:http,https'
         ];
     }
