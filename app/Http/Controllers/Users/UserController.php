@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Users;
 
 use App\DTO\Users\UserRequestDto;
@@ -8,17 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Users\UserRequest;
 use App\Models\Users\User;
 use App\Services\Users\UserService;
-use Illuminate\Contracts\Pagination\CursorPaginator;
-use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Pagination\AbstractCursorPaginator;
-use Illuminate\Pagination\AbstractPaginator;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Enumerable;
-use Illuminate\Support\LazyCollection;
-use Spatie\LaravelData\CursorPaginatedDataCollection;
-use Spatie\LaravelData\DataCollection;
-use Spatie\LaravelData\PaginatedDataCollection;
 
 class UserController extends Controller
 {
@@ -28,9 +20,9 @@ class UserController extends Controller
     {
     }
 
-    public function index(): Paginator|Enumerable|array|Collection|PaginatedDataCollection|LazyCollection|AbstractCursorPaginator|CursorPaginatedDataCollection|DataCollection|AbstractPaginator|CursorPaginator
+    public function index(): JsonResponse
     {
-        return $this->userService->index();
+        return response()->json($this->userService->index());
     }
 
     public function show(User $user): UserSimpleDto

@@ -7,22 +7,18 @@ namespace App\Services\Users;
 use App\DTO\Users\UserRequestDto;
 use App\DTO\Users\UserSimpleDto;
 use App\Models\Users\User;
-use Illuminate\Contracts\Pagination\CursorPaginator;
-use Illuminate\Contracts\Pagination\Paginator;
-use Illuminate\Pagination\AbstractCursorPaginator;
-use Illuminate\Pagination\AbstractPaginator;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Enumerable;
-use Illuminate\Support\LazyCollection;
-use Spatie\LaravelData\CursorPaginatedDataCollection;
-use Spatie\LaravelData\DataCollection;
-use Spatie\LaravelData\PaginatedDataCollection;
+use Illuminate\Http\JsonResponse;
 
 class UserService
 {
-    public function index(): Paginator|Enumerable|array|Collection|LazyCollection|PaginatedDataCollection|AbstractCursorPaginator|CursorPaginatedDataCollection|DataCollection|AbstractPaginator|CursorPaginator
+    /**
+     * @return array<string|int,string>
+     */
+    public function index(): array
     {
-        return UserSimpleDto::collect(User::all());
+        return [
+            'data' => UserSimpleDto::collect(User::all())
+        ];
     }
 
     public function show(User $user): UserSimpleDto
