@@ -16,7 +16,7 @@ Route::group([
         Route::post('logout', [LogoutController::class, 'logout']);
         Route::get('current-user', [LoginController::class, 'currentUser']);
     });
-
+    Route::resource('users', UserController::class)->except(['store', 'create']);
 });
 
 Route::group([
@@ -26,5 +26,3 @@ Route::group([
     Route::post('register', [RegisterController::class, 'register']);
     Route::post('login', [LoginController::class, 'login']);
 });
-
-Route::resource('users', UserController::class)->except(['store', 'create']);
