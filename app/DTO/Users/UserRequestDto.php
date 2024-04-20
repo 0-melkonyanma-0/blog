@@ -9,7 +9,6 @@ use Spatie\LaravelData\Data;
 class UserRequestDto extends Data
 {
     /**
-     * @param string $full_name
      * @param string $username
      * @param string $email
      * @param string $password

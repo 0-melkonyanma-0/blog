@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Http\Controllers\Users;
 
 use App\DTO\Users\UserRequestDto;
@@ -12,7 +10,6 @@ use App\Services\Users\UserService;
 use Illuminate\Contracts\Pagination\CursorPaginator;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Pagination\AbstractCursorPaginator;
 use Illuminate\Pagination\AbstractPaginator;
 use Illuminate\Support\Collection;
@@ -25,8 +22,9 @@ use Spatie\LaravelData\PaginatedDataCollection;
 class UserController extends Controller
 {
     public function __construct(
-        public UserService $userService
-    ) {
+        private readonly UserService $userService
+    )
+    {
     }
 
     public function index(): Paginator|Enumerable|array|Collection|PaginatedDataCollection|LazyCollection|AbstractCursorPaginator|CursorPaginatedDataCollection|DataCollection|AbstractPaginator|CursorPaginator
@@ -39,11 +37,21 @@ class UserController extends Controller
         return $this->userService->show($user);
     }
 
-    public function update(Request $request, User $user): int
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UserRequestDto $request, User $user): JsonResponse
     {
-        return $this->userService->update(UserRequestDto::from($request), $user);
+        return response()->json(
+            [
+                'id' => $this->userService->update(UserRequestDto::from($request), $user)
+            ]
+        );
     }
 
+    /**
+     * Remove the specified resource from storage.
+     */
     public function destroy(User $user): JsonResponse
     {
         return response()->json([
