@@ -20,6 +20,9 @@ return new class extends Migration {
             $table->text('cover')->default('');
             $table->boolean('is_archived')->default(false);
             $table->unsignedBigInteger('author_id');
+            $table->unsignedBigInteger('category_id')->nullable();
+
+            $table->foreign('category_id')->references('id')->on('categories');
             $table->foreign('author_id')->references('id')->on('users');
 
             $table->timestamp('archived_at')->nullable();

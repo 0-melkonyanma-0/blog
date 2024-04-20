@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Posts;
 
-use App\DTO\Posts\PostDto;
+use App\DTO\Posts\PostRequestDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Posts\PostRequest;
 use App\Models\Posts\Post;
@@ -23,15 +23,18 @@ class PostController extends Controller
         // TODO: after down with view functionality
     }
 
-    /**
-     * @param PostRequest $request
-     * @return JsonResponse
-     */
-    public function store(PostRequest $request): JsonResponse
+//    /**
+//     * @param PostRequest $request
+//     * @return JsonResponse
+//     */
+    public function store(PostRequest $request): void //JsonResponse
     {
-        return response()->json([
-            'id' => $this->postService->save(PostDto::from($request))
-        ]);
+
+        dd(PostRequestDto::from($request));
+//
+//        return response()->json([
+//            'id' => $this->postService->save(PostRequestDto::from($request))
+//        ]);
     }
 
     /**
@@ -51,7 +54,7 @@ class PostController extends Controller
     public function update(PostRequest $request, Post $post): JsonResponse
     {
         return response()->json([
-            'data' => $this->postService->updateElement(PostDto::from($request), $post)
+            'id' => $this->postService->updateElement(PostRequestDto::from($request), $post)
         ]);
     }
 

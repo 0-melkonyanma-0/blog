@@ -25,10 +25,16 @@ class Post extends Model
         'body',
         'cover',
         'author_id',
+        'category_id'
     ];
 
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'author_id');
+    }
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
     }
 }
