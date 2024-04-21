@@ -23,7 +23,7 @@ class PostController extends Controller
     {
         // TODO: after down with view functionality
         return response()->json([
-            'data' => PostDto::collect(Post::all()->load('author', 'categories'))
+            'data' => PostDto::collect(Post::all()->load('author', 'categories', 'comments'))
         ]);
     }
 
@@ -34,7 +34,7 @@ class PostController extends Controller
     public function store(PostRequest $request): JsonResponse
     {
         return response()->json([
-            'id' => $this->postService->save(PostRequestDto::from($request))
+            'id' => $this->postService->saveElement(PostRequestDto::from($request))
         ]);
     }
 

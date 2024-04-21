@@ -42,7 +42,7 @@ class CategoryController extends Controller
     public function store(CategoryRequest $request): JsonResponse
     {
         return response()->json([
-            'id' => $this->categoryService->save(CategoryDto::from($request))
+            'id' => $this->categoryService->saveElement(CategoryDto::from($request))
         ]);
     }
 

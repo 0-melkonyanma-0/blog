@@ -19,7 +19,10 @@ use Spatie\LaravelData\PaginatedDataCollection;
 
 class CategoryService
 {
-    public function all(): Paginator|Enumerable|array|Collection|DataCollection|CursorPaginatedDataCollection|AbstractCursorPaginator|PaginatedDataCollection|LazyCollection|AbstractPaginator|CursorPaginator
+    /**
+     * @return Collection<int|string>|array
+     */
+    public function all(): array|Collection
     {
         return CategoryDto::collect(Category::all());
     }
@@ -28,7 +31,7 @@ class CategoryService
      * @param CategoryDto $dto
      * @return int
      */
-    public function save(CategoryDto $dto): int
+    public function saveElement(CategoryDto $dto): int
     {
         return (Category::create($dto->toArray()))->id;
     }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\DTO\Posts;
 
 use App\Models\Posts\Category;
+use App\Models\Posts\Comment;
 use App\Models\Posts\Post;
 use App\Models\Users\User;
 use Carbon\Carbon;
@@ -17,10 +18,12 @@ class PostDto extends Data
         public readonly string             $title,
         public readonly string             $body,
         public readonly string             $cover = '',
-        public readonly Lazy|User|null     $created_at = null,
+        public readonly Lazy|string|null   $created_at = null,
         public readonly Lazy|User|null     $author = null,
         public readonly Lazy|Category|null $categories = null,
-    ) {
+        public readonly Lazy|Comment|null  $comments = null,
+    )
+    {
     }
 
     public static function fromModel(Post $post): self
@@ -30,8 +33,10 @@ class PostDto extends Data
             $post->body,
             $post->cover,
             Lazy::whenLoaded('author', $post, fn() => Carbon::parse($post->created_at)->format('d.m.Y H:i:s')),
-            Lazy::whenLoaded('author', $post, fn() => $post->author->select('username')->get()),
+            Lazy::whenLoaded('author', $post, fn() => $post->author),
             Lazy::whenLoaded('categories', $post, fn() => $post->categories->select('title')),
+            Lazy::whenLoaded('comments', $post, fn() => $post->comments()->with('author')->get()
+                ->select('body', 'author', 'created_at', 'updated_at')->whereNull('deleted_at')),
         );
     }
 
