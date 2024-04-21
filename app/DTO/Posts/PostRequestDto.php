@@ -13,10 +13,10 @@ use Spatie\LaravelData\Lazy;
 class PostRequestDto extends Data
 {
     public function __construct(
-        public readonly string             $title,
-        public readonly string             $body,
-        public readonly string             $cover = '',
-        public readonly int                $category_id,
+        public readonly string $title,
+        public readonly string $body,
+        public readonly array  $categories,
+        public readonly string $cover = '',
     ) {
     }
 }

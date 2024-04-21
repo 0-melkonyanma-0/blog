@@ -23,18 +23,15 @@ class PostController extends Controller
         // TODO: after down with view functionality
     }
 
-//    /**
-//     * @param PostRequest $request
-//     * @return JsonResponse
-//     */
-    public function store(PostRequest $request): void //JsonResponse
+    /**
+     * @param PostRequest $request
+     * @return JsonResponse
+     */
+    public function store(PostRequest $request): JsonResponse
     {
-
-        dd(PostRequestDto::from($request));
-//
-//        return response()->json([
-//            'id' => $this->postService->save(PostRequestDto::from($request))
-//        ]);
+        return response()->json([
+            'id' => $this->postService->save(PostRequestDto::from($request))
+        ]);
     }
 
     /**

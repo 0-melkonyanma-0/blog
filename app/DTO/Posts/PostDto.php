@@ -28,7 +28,7 @@ class PostDto extends Data
             $post->body,
             $post->cover,
             Lazy::whenLoaded('author', $post, fn() => $post->author()->select('username', 'created_at')->get()),
-            Lazy::whenLoaded('category', $post, fn() => $post->category()->select('title')->get()),
+            Lazy::whenLoaded('categories', $post, fn() => $post->categories()->select('title')->get()),
         );
     }
 

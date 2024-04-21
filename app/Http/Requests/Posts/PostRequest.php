@@ -14,8 +14,7 @@ class PostRequest extends FormRequest
      */
     public function authorize(): bool
     {
-//        return auth()->hasUser();
-        return true;
+        return auth()->hasUser();
     }
 
     /**
@@ -28,8 +27,9 @@ class PostRequest extends FormRequest
         return [
             'title' => 'required|bail|string|max:255',
             'body' => 'required|bail|string|max:4096',
+            'categories' => 'required|array',
+            'categories.*' => 'integer|exists:categories,id',
             'cover' => 'nullable|url:http,https',
-//            'category_id' => 'required',
         ];
     }
 }

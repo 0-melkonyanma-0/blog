@@ -10,13 +10,21 @@ use App\Models\Posts\Post;
 
 class PostService
 {
+    public function saveData(PostRequestDto $dto, Post $post): void
+    {
+        $post->categories()->sync($dto->categories);
+    }
+
     /**
      * @param PostRequestDto $dto
      * @return int
      */
     public function save(PostRequestDto $dto): int
     {
-        return (Post::create($dto->toArray()))->id;
+        $post = Post::create($dto->toArray());
+        $this->saveData($dto, $post);
+
+        return $post->id;
     }
 
     /**
@@ -38,6 +46,8 @@ class PostService
     public function updateElement(PostRequestDto $dto, Post $post): int
     {
         $post->update($dto->toArray());
+        $this->saveData($dto, $post);
+
         return $post->id;
     }
 
