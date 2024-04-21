@@ -29,11 +29,13 @@ class UserController extends Controller
 
     /**
      * @param User $user
-     * @return UserSimpleDto
+     * @return JsonResponse
      */
-    public function show(User $user): UserSimpleDto
+    public function show(User $user): JsonResponse
     {
-        return $this->userService->element($user);
+        return response()->json([
+            'data' => $this->userService->element($user)
+        ]);
     }
 
     /**

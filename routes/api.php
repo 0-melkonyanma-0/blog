@@ -14,28 +14,50 @@ use Illuminate\Support\Facades\Route;
 
 Route::group([
     'middleware' => 'auth:api',
+    'prefix' => 'auth'
 ], function () {
-    Route::prefix('auth')->group(function () {
-        Route::post('refresh', [LoginController::class, 'refresh']);
-        Route::post('logout', [LogoutController::class, 'logout']);
-        Route::get('current-user', [LoginController::class, 'currentUser']);
-    });
-
-    Route::resource('users', UserController::class)->except(['store', 'create']);
-    Route::get('users/{user}/posts', [UserPostController::class, 'showUserPosts']);
-    Route::apiResource('categories', CategoryController::class);
-
-    Route::group(['prefix' => 'posts'], function() {
-        Route::apiResource('/', PostController::class);
-        Route::post('/{post}/comments', [CommentController::class, 'store']);
-        Route::patch('/comments/{comment}', [CommentController::class, 'update']);
-        Route::delete('/comments/{comment}', [CommentController::class, 'destroy']);
-
-        Route::get('/archived', [UserPostController::class, 'showArchivedPostsOfCurrentUser']);
-        Route::patch('/{post}/archive', [UserPostController::class, 'archivePost']);
-        Route::patch('/{post}/un-archive', [UserPostController::class, 'unArchivePost']);
-    });
+    Route::post('refresh', [LoginController::class, 'refresh']);
+    Route::post('logout', [LogoutController::class, 'logout']);
+    Route::get('current-user', [LoginController::class, 'currentUser']);
 });
+
+
+Route::group([
+    'middleware' => 'auth:api',
+    'prefix' => 'users'
+], function () {
+    Route::resource('', UserController::class)->except(['store', 'create'])->parameters([
+        '' => 'user'
+    ]);
+    Route::get('/{user}/posts', [UserPostController::class, 'showUserPosts']);
+    Route::get('/{user}/posts/{post}', [UserPostController::class, 'showUserPost']);
+});
+
+
+Route::group([
+    'middleware' => 'auth:api',
+    'prefix' => 'posts'
+], function () {
+    Route::get('/archived', [UserPostController::class, 'showArchivedPostsForCurrentUser']);
+
+    Route::apiResource('', PostController::class)->parameters([
+        '' => 'post'
+    ]);
+    Route::post('/{post}/comments', [CommentController::class, 'store']);
+    Route::patch('/comments/{comment}', [CommentController::class, 'update']);
+    Route::delete('/comments/{comment}', [CommentController::class, 'destroy']);
+
+    Route::patch('/{post}/archive', [UserPostController::class, 'archivePost']);
+    Route::patch('/{post}/un-archive', [UserPostController::class, 'unArchivePost']);
+});
+
+
+Route::group([
+    'middleware' => 'auth:api',
+], function () {
+    Route::apiResource('categories', CategoryController::class);
+});
+
 
 Route::group([
     'middleware' => 'api',

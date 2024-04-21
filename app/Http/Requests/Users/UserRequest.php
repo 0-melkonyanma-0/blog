@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Requests\Users;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UserRequest extends FormRequest
 {
@@ -24,8 +25,8 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'username' => 'required|nullable|string|max:255',
-            'email' => 'required|nullable|string|email|max:255|unique:users,id',
+            'username' => ['nullable', 'string', 'max:255', Rule::unique('users', 'id')],
+            'email' => 'required|nullable|string|email|max:255|unique:users,email',
             'password' => 'nullable|string|min:6|confirmed'
         ];
     }
