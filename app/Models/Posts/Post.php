@@ -26,6 +26,8 @@ class Post extends Model
         'title',
         'body',
         'cover',
+        'archived_at',
+        'is_archived',
         'author_id',
         'category_id'
     ];

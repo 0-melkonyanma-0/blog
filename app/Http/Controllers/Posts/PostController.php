@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Posts\PostRequest;
 use App\Models\Posts\Post;
 use App\Services\Posts\PostService;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 
 class PostController extends Controller
@@ -21,9 +22,12 @@ class PostController extends Controller
 
     public function index(): JsonResponse
     {
-        // TODO: after down with view functionality
         return response()->json([
-            'data' => PostDto::collect(Post::all()->load('author', 'categories', 'comments'))
+          'data' =>  PostDto::collect(Post::where(function(Builder $query) {
+              $query->where('is_archived', '=', false);
+              $query->whereNull('archived_at');
+              $query->whereNull('deleted_at');
+          })->get()->load('author', 'categories', 'comments'))
         ]);
     }
 
@@ -32,6 +36,18 @@ class PostController extends Controller
      * @return JsonResponse
      */
     public function store(PostRequest $request): JsonResponse
+    {
+        return response()->json([
+            'id' => $this->postService->saveElement(PostRequestDto::from($request))
+        ]);
+    }
+
+
+    /**
+     * @param PostRequest $request
+     * @return JsonResponse
+     */
+    public function archive(PostRequest $request): JsonResponse
     {
         return response()->json([
             'id' => $this->postService->saveElement(PostRequestDto::from($request))
