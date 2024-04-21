@@ -26,7 +26,7 @@ class PostController extends Controller
           'data' =>  PostDto::collect(Post::where(function(Builder $query) {
               $query->whereNull('archived_at');
               $query->whereNull('deleted_at');
-          })->get()->load('author', 'categories'))
+          })->get()->load('author', 'categories', 'views'))
         ]);
     }
 

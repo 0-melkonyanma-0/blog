@@ -54,6 +54,8 @@ Route::group([
 
     Route::patch('/{post}/archive', [UserPostController::class, 'archivePost']);
     Route::patch('/{post}/un-archive', [UserPostController::class, 'unArchivePost']);
+
+    Route::post('/{post}/view', [UserPostController::class, 'watch']);
 });
 
 

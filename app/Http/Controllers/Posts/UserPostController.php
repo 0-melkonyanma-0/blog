@@ -7,14 +7,17 @@ namespace App\Http\Controllers\Posts;
 use App\Http\Controllers\Controller;
 use App\Models\Posts\Post;
 use App\Models\Users\User;
+use App\Services\Posts\PostService;
 use App\Services\Posts\UserPostService;
 use Illuminate\Http\JsonResponse;
 
 class UserPostController extends Controller
 {
     public function __construct(
-        protected UserPostService $archiveService
-    ) {
+        protected UserPostService $archiveService,
+        protected PostService     $postService
+    )
+    {
     }
 
     /**
@@ -49,6 +52,17 @@ class UserPostController extends Controller
     {
         return response()->json([
             'data' => $this->archiveService->showElements($user)
+        ]);
+    }
+
+    /**
+     * @param Post $post
+     * @return JsonResponse
+     */
+    public function watch(Post $post): JsonResponse
+    {
+        return response()->json([
+            'views' => $this->postService->makeView($post)
         ]);
     }
 
