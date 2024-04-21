@@ -22,18 +22,18 @@ Route::group([
     });
 
     Route::resource('users', UserController::class)->except(['store', 'create']);
-    Route::get('users/{user}/posts', [UserPostController::class, 'showUserPost']);
-
+    Route::get('users/{user}/posts', [UserPostController::class, 'showUserPosts']);
     Route::apiResource('categories', CategoryController::class);
 
     Route::group(['prefix' => 'posts'], function() {
         Route::apiResource('/', PostController::class);
         Route::post('/{post}/comments', [CommentController::class, 'store']);
+        Route::patch('/comments/{comment}', [CommentController::class, 'update']);
+        Route::delete('/comments/{comment}', [CommentController::class, 'destroy']);
+
         Route::get('/archived', [UserPostController::class, 'showArchivedPostsOfCurrentUser']);
         Route::patch('/{post}/archive', [UserPostController::class, 'archivePost']);
         Route::patch('/{post}/un-archive', [UserPostController::class, 'unArchivePost']);
-        Route::patch('/comments/{comment}', [CommentController::class, 'update']);
-        Route::delete('/comments/{comment}', [CommentController::class, 'destroy']);
     });
 });
 

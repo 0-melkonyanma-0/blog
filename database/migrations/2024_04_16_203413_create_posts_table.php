@@ -1,6 +1,6 @@
 <?php
 
-//declare(strict_types=1);
+declare(strict_types=1);
 
 use App\Models\Users\User;
 use Illuminate\Database\Migrations\Migration;
@@ -18,7 +18,6 @@ return new class extends Migration {
             $table->string('title');
             $table->text('body');
             $table->text('cover')->default('');
-            $table->boolean('is_archived')->default(false);
             $table->unsignedBigInteger('author_id');
             $table->foreign('author_id')->references('id')->on('users');
 
