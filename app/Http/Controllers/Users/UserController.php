@@ -39,6 +39,43 @@ class UserController extends Controller
     }
 
     /**
+     * @param User $user
+     * @return JsonResponse
+     */
+    public function showFollowers(User $user): JsonResponse
+    {
+        return response()->json($this->userService->getFollowers($user));
+    }
+
+    /**
+     * @param User $user
+     * @return JsonResponse
+     */
+    public function showAuthors(User $user): JsonResponse
+    {
+        return response()->json($this->userService->getAuthors($user));
+    }
+
+    /**
+     * @param User $user
+     * @return JsonResponse
+     */
+    public function follow(User $user): JsonResponse
+    {
+        return response()->json($this->userService->startFollow($user));
+    }
+
+    /**
+     * @param User $user
+     * @return JsonResponse
+     */
+    public function unFollow(User $user): JsonResponse
+    {
+        return response()->json($this->userService->unFollow($user));
+    }
+
+
+    /**
      * @param UserRequest $request
      * @param User $user
      * @return JsonResponse
@@ -46,8 +83,8 @@ class UserController extends Controller
     public function update(UserRequest $request, User $user): JsonResponse
     {
         return response()->json([
-                'id' => $this->userService->updateElement(UserRequestDto::from($request), $user)
-            ]);
+            'id' => $this->userService->updateElement(UserRequestDto::from($request), $user)
+        ]);
     }
 
     /**

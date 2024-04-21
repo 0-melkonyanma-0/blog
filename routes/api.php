@@ -10,6 +10,7 @@ use App\Http\Controllers\Posts\CommentController;
 use App\Http\Controllers\Posts\PostController;
 use App\Http\Controllers\Posts\UserPostController;
 use App\Http\Controllers\Users\UserController;
+use App\Models\Users\User;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
@@ -31,6 +32,10 @@ Route::group([
     ]);
     Route::get('/{user}/posts', [UserPostController::class, 'showUserPosts']);
     Route::get('/{user}/posts/{post}', [UserPostController::class, 'showUserPost']);
+    Route::post('/{user}/follow', [UserController::class, 'follow']);
+    Route::post('/{user}/un-follow', [UserController::class, 'unFollow']);
+    Route::get('/{user}/followers', [UserController::class, 'showFollowers']);
+    Route::get('/{user}/authors', [UserController::class, 'showAuthors']);
 });
 
 
@@ -67,4 +72,6 @@ Route::group([
     Route::post('login', [LoginController::class, 'login']);
 });
 
-
+Route::get('test/{id}', function(int $id) {
+    dd((User::find($id))->followers()->get());
+});

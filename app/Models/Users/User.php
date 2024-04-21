@@ -7,6 +7,7 @@ namespace App\Models\Users;
 use App\Models\Posts\Comment;
 use App\Models\Posts\Post;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -65,6 +66,16 @@ class User extends Authenticatable implements JWTSubject
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function followers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'subscriptions', 'author_id','follower_id');
+    }
+
+    public function authors(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'subscriptions', 'follower_id', 'author_id');
     }
 
     public function getRouteKeyName(): string
