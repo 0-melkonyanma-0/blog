@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Posts;
 
+use App\DTO\Posts\PostDto;
 use App\DTO\Posts\PostRequestDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Posts\PostRequest;
@@ -18,9 +19,12 @@ class PostController extends Controller
     ) {
     }
 
-    public function index()
+    public function index(): JsonResponse
     {
         // TODO: after down with view functionality
+        return response()->json([
+            'data' => PostDto::collect(Post::all()->load('author', 'categories'))
+        ]);
     }
 
     /**

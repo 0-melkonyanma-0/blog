@@ -19,7 +19,7 @@ Route::group([
         Route::get('current-user', [LoginController::class, 'currentUser']);
     });
     Route::resource('users', UserController::class)->except(['store', 'create']);
-    Route::apiResource('posts', PostController::class)->except(['index']);
+    Route::apiResource('posts', PostController::class);
     Route::apiResource('categories', CategoryController::class);
 });
 

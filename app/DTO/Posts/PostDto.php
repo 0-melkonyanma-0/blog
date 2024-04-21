@@ -7,6 +7,7 @@ namespace App\DTO\Posts;
 use App\Models\Posts\Category;
 use App\Models\Posts\Post;
 use App\Models\Users\User;
+use Carbon\Carbon;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Lazy;
 
@@ -16,8 +17,9 @@ class PostDto extends Data
         public readonly string             $title,
         public readonly string             $body,
         public readonly string             $cover = '',
+        public readonly Lazy|User|null     $created_at = null,
         public readonly Lazy|User|null     $author = null,
-        public readonly Lazy|Category|null $category = null,
+        public readonly Lazy|Category|null $categories = null,
     ) {
     }
 
@@ -27,8 +29,9 @@ class PostDto extends Data
             $post->title,
             $post->body,
             $post->cover,
-            Lazy::whenLoaded('author', $post, fn() => $post->author()->select('username', 'created_at')->get()),
-            Lazy::whenLoaded('categories', $post, fn() => $post->categories()->select('title')->get()),
+            Lazy::whenLoaded('author', $post, fn() => Carbon::parse($post->created_at)->format('d.m.Y H:i:s')),
+            Lazy::whenLoaded('author', $post, fn() => $post->author->select('username')->get()),
+            Lazy::whenLoaded('categories', $post, fn() => $post->categories->select('title')),
         );
     }
 
