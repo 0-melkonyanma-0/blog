@@ -7,12 +7,27 @@ namespace App\Services\Posts;
 use App\DTO\Posts\PostDto;
 use App\DTO\Posts\PostRequestDto;
 use App\Models\Posts\Post;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\JsonResponse;
 
 class PostService
 {
     public function saveData(PostRequestDto $dto, Post $post): void
     {
         $post->categories()->sync($dto->categories);
+    }
+
+    public function elements(): JsonResponse
+    {
+        return response()->json(PostDto::collect(
+            Post::where(function (Builder $query) {
+                $query->whereNull('archived_at');
+                $query->whereNull('deleted_at');
+            })
+                ->filter(request(['search']))
+                ->with('author', 'categories', 'views')
+                ->paginate(request()['amount'] ?? 20)
+        ));
     }
 
     /**

@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * @property int $id
@@ -52,5 +53,23 @@ class Post extends Model
     public function views(): MorphMany
     {
         return $this->morphMany(View::class, 'viewable');
+    }
+
+    /**
+     * @param Builder $query
+     * @param array $filters
+     * @return void
+     */
+    public function scopeFilter(Builder $query, array $filters): void
+    {
+        $query->when(
+            $filters['search'] ?? false,
+            fn($query, $search) => $query->where(
+                fn($query) => $query
+                    ->where('title', 'like', '%' . $search . '%')
+                    ->orWhere('body', 'like', '%' . $search . '%')
+                    ->orderByRaw('ts_rank(ts, to_tsquery(' . $search . ')) DESC')
+            )
+        );
     }
 }

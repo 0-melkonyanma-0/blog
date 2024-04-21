@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Models\Posts\Post;
 use App\Models\Users\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
@@ -16,11 +18,22 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Users::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test Users',
-            'email' => 'test@example.com',
-        ]);
+        for ($i = 0; $i < 1000; ++$i) {
+//            User::factory()->count(10)->create();
+            Post::withoutEvents(function () {
+                Post::create([
+                    'title' => Str::random(100),
+                    'body' => Str::random(10000),
+                    'author_id' => 1
+                ]);
+            });
+        }
+//        $users = User::all();
+//
+//        $users->each(function($user) {
+//            (Post::find(1))->views()->create([
+//                'user_id' => $user->id
+//            ]);
+//        });
     }
 }

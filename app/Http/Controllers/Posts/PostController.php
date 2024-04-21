@@ -17,17 +17,13 @@ class PostController extends Controller
 {
     public function __construct(
         protected readonly PostService $postService
-    ) {
+    )
+    {
     }
 
     public function index(): JsonResponse
     {
-        return response()->json([
-          'data' =>  PostDto::collect(Post::where(function(Builder $query) {
-              $query->whereNull('archived_at');
-              $query->whereNull('deleted_at');
-          })->get()->load('author', 'categories', 'views'))
-        ]);
+        return $this->postService->elements();
     }
 
     /**
