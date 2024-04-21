@@ -16,11 +16,17 @@ class Category extends Model
         'title'
     ];
 
+    /**
+     * @return string
+     */
     public function getRouteKeyName(): string
     {
         return 'title';
     }
 
+    /**
+     * @return HasMany
+     */
     public function posts(): HasMany {
         return $this->hasMany(Post::class);
     }

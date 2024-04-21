@@ -9,6 +9,10 @@ use Illuminate\Http\JsonResponse;
 
 abstract class GenerateToken extends Controller
 {
+    /**
+     * @param $token
+     * @return JsonResponse
+     */
     public function responseWithToken($token): JsonResponse
     {
         return response()->json([

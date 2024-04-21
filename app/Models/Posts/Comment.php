@@ -20,11 +20,17 @@ class Comment extends Model
         'body'
     ];
 
+    /**
+     * @return BelongsTo
+     */
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'author_id');
     }
 
+    /**
+     * @return BelongsTo
+     */
     public function post(): BelongsTo
     {
         return $this->belongsTo(Post::class);

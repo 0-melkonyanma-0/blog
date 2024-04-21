@@ -13,11 +13,14 @@ use Illuminate\Http\JsonResponse;
 
 class UserPostController extends Controller
 {
+    /**
+     * @param UserPostService $archiveService
+     * @param PostService $postService
+     */
     public function __construct(
         protected UserPostService $archiveService,
         protected PostService     $postService
-    )
-    {
+    ) {
     }
 
     /**
@@ -48,6 +51,10 @@ class UserPostController extends Controller
         ]);
     }
 
+    /**
+     * @param User $user
+     * @return JsonResponse
+     */
     public function showUserPosts(User $user): JsonResponse
     {
         return response()->json([
@@ -66,6 +73,10 @@ class UserPostController extends Controller
         ]);
     }
 
+    /**
+     * @param User $user
+     * @return JsonResponse
+     */
     public function showUserPost(User $user): JsonResponse
     {
         return response()->json([

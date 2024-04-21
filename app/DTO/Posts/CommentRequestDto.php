@@ -8,6 +8,9 @@ use Spatie\LaravelData\Data;
 
 class CommentRequestDto extends Data
 {
+    /**
+     * @param string $body
+     */
     public function __construct(
         public readonly string $body,
     ) {

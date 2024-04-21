@@ -14,11 +14,19 @@ use Illuminate\Http\JsonResponse;
 
 class CommentController extends Controller
 {
+    /**
+     * @param CommentService $commentService
+     */
     public function __construct(
         protected CommentService $commentService
     ) {
     }
 
+    /**
+     * @param CommentRequest $request
+     * @param Post $post
+     * @return JsonResponse
+     */
     public function store(CommentRequest $request, Post $post): JsonResponse
     {
         return response()->json([
@@ -26,7 +34,12 @@ class CommentController extends Controller
         ]);
     }
 
-    public function update(CommentRequest $request, Comment $comment)
+    /**
+     * @param CommentRequest $request
+     * @param Comment $comment
+     * @return JsonResponse
+     */
+    public function update(CommentRequest $request, Comment $comment): JsonResponse
     {
         return response()->json([
             'id' => $this->commentService->updateElement(CommentRequestDto::from($request), $comment)

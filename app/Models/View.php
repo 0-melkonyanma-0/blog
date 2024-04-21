@@ -16,6 +16,9 @@ class View extends Model
         'user_id'
     ];
 
+    /**
+     * @return MorphTo
+     */
     public function viewable(): MorphTo {
         return $this->morphTo();
     }

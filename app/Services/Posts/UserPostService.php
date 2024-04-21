@@ -26,6 +26,10 @@ class UserPostService
         })->get());
     }
 
+    /**
+     * @param User $user
+     * @return array|Collection|LazyCollection
+     */
     public function showElements(User $user): array|Collection|LazyCollection
     {
         return PostDto::collect(Post::where(function (Builder $query) use ($user) {

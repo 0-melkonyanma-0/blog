@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 
 class LogoutController extends Controller
 {
+    /**
+     * @return JsonResponse
+     */
     public function logout(): JsonResponse
     {
         auth()->logout();

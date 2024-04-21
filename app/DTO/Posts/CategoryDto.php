@@ -8,6 +8,9 @@ use Spatie\LaravelData\Data;
 
 class CategoryDto extends Data
 {
+    /**
+     * @param string $title
+     */
     public function __construct(
         public readonly string $title
     ) {

@@ -4,26 +4,29 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Posts;
 
-use App\DTO\Posts\PostDto;
 use App\DTO\Posts\PostRequestDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Posts\PostRequest;
 use App\Models\Posts\Post;
 use App\Services\Posts\PostService;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 
 class PostController extends Controller
 {
+    /**
+     * @param PostService $postService
+     */
     public function __construct(
         protected readonly PostService $postService
-    )
-    {
+    ) {
     }
 
+    /**
+     * @return JsonResponse
+     */
     public function index(): JsonResponse
     {
-        return $this->postService->elements();
+        return $this->postService->all();
     }
 
     /**

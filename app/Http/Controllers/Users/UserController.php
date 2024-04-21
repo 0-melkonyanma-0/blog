@@ -14,6 +14,9 @@ use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
 {
+    /**
+     * @param UserService $userService
+     */
     public function __construct(
         private readonly UserService $userService
     ) {

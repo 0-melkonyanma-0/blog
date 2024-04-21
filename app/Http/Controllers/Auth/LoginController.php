@@ -9,6 +9,9 @@ use Illuminate\Http\JsonResponse;
 
 class LoginController extends GenerateToken
 {
+    /**
+     * @return JsonResponse
+     */
     public function login(): JsonResponse
     {
         $credentials = request(['email', 'password']);
@@ -20,11 +23,17 @@ class LoginController extends GenerateToken
         return $this->responseWithToken($token);
     }
 
+    /**
+     * @return JsonResponse
+     */
     public function currentUser(): JsonResponse
     {
         return response()->json(UserSimpleDto::from(auth()->user()));
     }
 
+    /**
+     * @return JsonResponse
+     */
     public function refresh(): JsonResponse
     {
         return $this->responseWithToken(auth()->refresh());

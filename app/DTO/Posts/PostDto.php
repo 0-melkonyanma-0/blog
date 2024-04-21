@@ -14,6 +14,16 @@ use Spatie\LaravelData\Lazy;
 
 class PostDto extends Data
 {
+    /**
+     * @param string $title
+     * @param string $body
+     * @param string $cover
+     * @param Lazy|string|null $created_at
+     * @param Lazy|User|null $author
+     * @param Lazy|Category|null $categories
+     * @param Lazy|Comment|null $comments
+     * @param Lazy|int|null $views
+     */
     public function __construct(
         public readonly string             $title,
         public readonly string             $body,
@@ -26,6 +36,10 @@ class PostDto extends Data
     ) {
     }
 
+    /**
+     * @param Post $post
+     * @return self
+     */
     public static function fromModel(Post $post): self
     {
         return new self(

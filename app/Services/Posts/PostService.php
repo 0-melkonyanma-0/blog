@@ -12,12 +12,20 @@ use Illuminate\Http\JsonResponse;
 
 class PostService
 {
+    /**
+     * @param PostRequestDto $dto
+     * @param Post $post
+     * @return void
+     */
     public function saveData(PostRequestDto $dto, Post $post): void
     {
         $post->categories()->sync($dto->categories);
     }
 
-    public function elements(): JsonResponse
+    /**
+     * @return JsonResponse
+     */
+    public function all(): JsonResponse
     {
         return response()->json(PostDto::collect(
             Post::where(function (Builder $query) {

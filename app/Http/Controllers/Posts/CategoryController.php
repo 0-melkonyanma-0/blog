@@ -13,6 +13,9 @@ use Illuminate\Http\JsonResponse;
 
 class CategoryController extends Controller
 {
+    /**
+     * @param CategoryService $categoryService
+     */
     public function __construct(
         protected readonly CategoryService $categoryService
     ) {

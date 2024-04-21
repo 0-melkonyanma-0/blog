@@ -8,6 +8,10 @@ use App\Models\Posts\Comment;
 
 class CommentObserver
 {
+    /**
+     * @param Comment $comment
+     * @return void
+     */
     public function creating(Comment $comment): void
     {
         $comment->author_id = auth()->user()->id;
