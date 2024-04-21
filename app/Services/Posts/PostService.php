@@ -19,7 +19,7 @@ class PostService
      * @param PostRequestDto $dto
      * @return int
      */
-    public function save(PostRequestDto $dto): int
+    public function saveElement(PostRequestDto $dto): int
     {
         $post = Post::create($dto->toArray());
         $this->saveData($dto, $post);
