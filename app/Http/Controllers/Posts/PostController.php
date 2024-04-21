@@ -24,10 +24,9 @@ class PostController extends Controller
     {
         return response()->json([
           'data' =>  PostDto::collect(Post::where(function(Builder $query) {
-              $query->where('is_archived', '=', false);
               $query->whereNull('archived_at');
               $query->whereNull('deleted_at');
-          })->get()->load('author', 'categories', 'comments'))
+          })->get()->load('author', 'categories'))
         ]);
     }
 
@@ -36,18 +35,6 @@ class PostController extends Controller
      * @return JsonResponse
      */
     public function store(PostRequest $request): JsonResponse
-    {
-        return response()->json([
-            'id' => $this->postService->saveElement(PostRequestDto::from($request))
-        ]);
-    }
-
-
-    /**
-     * @param PostRequest $request
-     * @return JsonResponse
-     */
-    public function archive(PostRequest $request): JsonResponse
     {
         return response()->json([
             'id' => $this->postService->saveElement(PostRequestDto::from($request))

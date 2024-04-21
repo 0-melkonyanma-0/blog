@@ -32,7 +32,7 @@ class PostDto extends Data
             $post->title,
             $post->body,
             $post->cover,
-            Lazy::whenLoaded('author', $post, fn() => Carbon::parse($post->created_at)->format('d.m.Y H:i:s')),
+            Lazy::when(fn() => $post->created_at !== null, fn() => Carbon::parse($post->created_at)->format('d.m.Y H:i:s')),
             Lazy::whenLoaded('author', $post, fn() => $post->author),
             Lazy::whenLoaded('categories', $post, fn() => $post->categories->select('title')),
             Lazy::whenLoaded('comments', $post, fn() => $post->comments()->with('author')->get()

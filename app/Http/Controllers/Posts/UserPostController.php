@@ -23,9 +23,7 @@ class UserPostController extends Controller
      */
     public function unArchivePost(Post $post): JsonResponse
     {
-        return response()->json([
-            'message' => $this->archiveService->unArchived($post)
-        ]);
+        return response()->json($this->archiveService->unArchived($post));
     }
 
     /**
@@ -34,15 +32,13 @@ class UserPostController extends Controller
      */
     public function archivePost(Post $post): JsonResponse
     {
-        return response()->json([
-            'message' => $this->archiveService->archived($post)
-        ]);
+        return response()->json($this->archiveService->archived($post));
     }
 
     /**
      * @return JsonResponse
      */
-    public function showArchivedPostsOfCurrentUser(): JsonResponse
+    public function showArchivedPostsForCurrentUser(): JsonResponse
     {
         return response()->json([
             'data' => $this->archiveService->showArchivedElements()
@@ -50,6 +46,13 @@ class UserPostController extends Controller
     }
 
     public function showUserPosts(User $user): JsonResponse
+    {
+        return response()->json([
+            'data' => $this->archiveService->showElements($user)
+        ]);
+    }
+
+    public function showUserPost(User $user): JsonResponse
     {
         return response()->json([
             'data' => $this->archiveService->showElements($user)

@@ -15,6 +15,15 @@ use Illuminate\Support\LazyCollection;
 class UserPostService
 {
     /**
+     * @return PostDto
+     */
+    public function showArchivedElement(Post $post): PostDto
+    {
+        return PostDto::from($post);
+    }
+
+
+    /**
      * @return array|Collection|LazyCollection
      */
     public function showArchivedElements(): array|Collection|LazyCollection
@@ -37,36 +46,47 @@ class UserPostService
 
     /**
      * @param Post $post
-     * @param string $status
-     * @return string
+     * @return array
      */
-    public function archived(Post $post): string
+    public function archived(Post $post): array
     {
         if($post->author->id === auth()->user()->id) {
             $post->update([
                 'archived_at' => Carbon::now()
             ]);
 
-            return 'archived';
+            return [
+                'message' => 'Archived',
+                'status' => 200
+            ];
         }
 
-        return 'It\'s not your post';
+        return [
+            'message' => 'No content',
+            'status' => 204
+        ];
     }
 
     /**
      * @param Post $post
-     * @return string
+     * @return array
      */
-    public function unArchived(Post $post): string
+    public function unArchived(Post $post): array
     {
         if($post->author->id === auth()->user()->id) {
             $post->update([
                 'archived_at' => null
             ]);
 
-            return  'unarchived';
+            return [
+                'message' => 'Unarchived',
+                'status' => 200
+            ];
         }
 
-        return 'It\'s not your post';
+        return [
+            'message' => 'No content',
+            'status' => 204
+        ];
     }
 }

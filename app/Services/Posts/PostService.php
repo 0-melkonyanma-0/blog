@@ -33,8 +33,16 @@ class PostService
      */
     public function element(Post $post): array
     {
+        if (!$post->archived_at || $post->author_id === auth()->user()->id) {
+            return [
+                'data' => PostDto::fromModel($post->load('author', 'categories', 'comments')),
+                'status' => 200
+            ];
+        }
+
         return [
-            'data' => PostDto::fromModel($post->load('author', 'category')),
+            'message' => 'No content',
+            'status' => 204
         ];
     }
 

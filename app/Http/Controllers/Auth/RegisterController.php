@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Auth;
 use App\Models\Users\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
 class RegisterController extends GenerateToken
@@ -17,7 +18,7 @@ class RegisterController extends GenerateToken
     public function register(): JsonResponse
     {
         $validator = Validator::make(request()->all(), [
-            'username' => 'required|string|max:255',
+            'username' => ['required', 'string', 'max:255', Rule::unique('users', 'username')],
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed'
         ]);
