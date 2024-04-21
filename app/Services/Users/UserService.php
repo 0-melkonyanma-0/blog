@@ -48,4 +48,70 @@ class UserService
     {
         return $user->delete();
     }
+
+    /**
+     * @param User $user
+     * @return array
+     */
+    public function startFollow(User $user): array
+    {
+        if ($user->id !== auth()->user()->id) {
+            $user->followers()->sync(auth()->user()->id);
+
+            return [
+                'message' => 'Subscribed',
+                'status' => 200
+            ];
+        }
+
+        return [
+            'message' => 'You can\'t follow yourself',
+            'status' => 403
+        ];
+    }
+
+    /**
+     * @param User $user
+     * @return array
+     */
+    public function unFollow(User $user): array
+    {
+        if ($user->id !== auth()->user()->id) {
+            $user->followers()->detach(auth()->user()->id);
+
+            return [
+                'message' => 'Unsubscribed',
+                'status' => 200
+            ];
+        }
+
+        return [
+            'message' => 'You can\'t unfollow yourself',
+            'status' => 403
+        ];
+    }
+
+    /**
+     * @param User $user
+     * @return array
+     */
+    public function getFollowers(User $user): array
+    {
+        return [
+            'data' => UserSimpleDto::collect($user->followers()->get()),
+            'status' => 200
+        ];
+    }
+
+    /**
+     * @param User $user
+     * @return array
+     */
+    public function getAuthors(User $user): array
+    {
+        return [
+            'data' => UserSimpleDto::collect($user->authors()->get()),
+            'status' => 200
+        ];
+    }
 }
