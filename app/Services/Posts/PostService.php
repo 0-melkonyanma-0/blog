@@ -67,4 +67,19 @@ class PostService
     {
         return $post->delete();
     }
+
+    /**
+     * @param Post $post
+     * @return int
+     */
+    public function makeView(Post $post): int
+    {
+        if($post->views->first()->user_id != auth()->user()->id) {
+            $post->views()->create([
+                'user_id' => auth()->user()->id
+            ]);
+        }
+
+        return  $post->views()->count();
+    }
 }

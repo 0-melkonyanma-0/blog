@@ -15,15 +15,6 @@ use Illuminate\Support\LazyCollection;
 class UserPostService
 {
     /**
-     * @return PostDto
-     */
-    public function showArchivedElement(Post $post): PostDto
-    {
-        return PostDto::from($post);
-    }
-
-
-    /**
      * @return array|Collection|LazyCollection
      */
     public function showArchivedElements(): array|Collection|LazyCollection

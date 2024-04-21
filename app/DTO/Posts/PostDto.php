@@ -22,8 +22,8 @@ class PostDto extends Data
         public readonly Lazy|User|null     $author = null,
         public readonly Lazy|Category|null $categories = null,
         public readonly Lazy|Comment|null  $comments = null,
-    )
-    {
+        public readonly Lazy|int|null      $views = null,
+    ) {
     }
 
     public static function fromModel(Post $post): self
@@ -37,6 +37,7 @@ class PostDto extends Data
             Lazy::whenLoaded('categories', $post, fn() => $post->categories->select('title')),
             Lazy::whenLoaded('comments', $post, fn() => $post->comments()->with('author')->get()
                 ->select('body', 'author', 'created_at', 'updated_at')->whereNull('deleted_at')),
+            Lazy::whenLoaded('views', $post, fn() => $post->views()->count()),
         );
     }
 
