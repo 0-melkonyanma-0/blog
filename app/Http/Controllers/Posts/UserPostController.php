@@ -4,34 +4,27 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Posts;
 
-use App\DTO\Posts\PostDto;
 use App\Http\Controllers\Controller;
 use App\Models\Posts\Post;
 use App\Models\Users\User;
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Builder;
+use App\Services\Posts\UserPostService;
 use Illuminate\Http\JsonResponse;
 
 class UserPostController extends Controller
 {
+    public function __construct(
+        protected UserPostService $archiveService
+    ) {
+    }
+
     /**
      * @param Post $post
      * @return JsonResponse
      */
     public function unArchivePost(Post $post): JsonResponse
     {
-        if($post->author->id === auth()->user()->id) {
-            $post->update([
-                'archived_at' => null,
-            ]);
-
-            return response()->json([
-                'id' => $post->id
-            ]);
-        }
-
         return response()->json([
-            'message' => "It's not your post"
+            'message' => $this->archiveService->unArchived($post)
         ]);
     }
 
@@ -41,18 +34,8 @@ class UserPostController extends Controller
      */
     public function archivePost(Post $post): JsonResponse
     {
-        if($post->author->id === auth()->user()->id) {
-            $post->update([
-                'archived_at' => Carbon::now(),
-            ]);
-
-            return response()->json([
-                'id' => $post->id
-            ]);
-        }
-
         return response()->json([
-            'message' => "It's not your post"
+            'message' => $this->archiveService->archived($post)
         ]);
     }
 
@@ -62,22 +45,14 @@ class UserPostController extends Controller
     public function showArchivedPostsOfCurrentUser(): JsonResponse
     {
         return response()->json([
-            'data' => PostDto::collect(Post::where(function(Builder $query) {
-                $query->where('author_id', '=', auth()->user()->id);
-                $query->whereNotNull('archived_at');
-            })->get())
+            'data' => $this->archiveService->showArchivedElements()
         ]);
     }
 
-    public function showUserPost(User $user): JsonResponse
+    public function showUserPosts(User $user): JsonResponse
     {
         return response()->json([
-            'data' => PostDto::collect(Post::where(function (Builder $query) use ($user) {
-                $query->where('is_archived', '=', false);
-                $query->whereNull('archived_at');
-                $query->whereNull('deleted_at');
-                $query->where('author_id', '=', $user->id);
-            })->get()->load('author', 'categories'))
+            'data' => $this->archiveService->showElements($user)
         ]);
     }
 }
