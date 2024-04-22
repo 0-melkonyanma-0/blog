@@ -28,7 +28,8 @@ class RegisterController extends GenerateToken
             return response()->json($validator->errors(), 400);
         }
 
-        User::create($validator->validated());
+        $user = User::create($validator->validated());
+        $user->assignRole('user');
 
         if (!$token = auth()->attempt($validator->validated())) {
             return response()->json(['error' => 'Unauthorized'], 401);

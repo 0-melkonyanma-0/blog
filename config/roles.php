@@ -10,10 +10,7 @@ return [
         ],
         'posts' => [
             'create', 'read', 'edit', 'delete'
-        ],
-        'bookmarks' => [
-            'create', 'read', 'edit', 'delete'
-        ],
+        ]
     ],
     'roles' => [
         'admin' => [
