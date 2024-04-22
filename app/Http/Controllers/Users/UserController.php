@@ -27,7 +27,7 @@ class UserController extends Controller
      */
     public function index(): JsonResponse
     {
-        return response()->json($this->userService->all());
+        return response()->json(UserRequestDto::collect($this->userService->all()));
     }
 
     /**

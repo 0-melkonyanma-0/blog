@@ -36,7 +36,7 @@ class UserPostService
             $query->whereNull('archived_at');
             $query->whereNull('deleted_at');
             $query->where('author_id', '=', $user->id);
-        })->get()->load('author', 'categories'));
+        })->get()->load('author', 'categories', 'views'));
     }
 
     /**

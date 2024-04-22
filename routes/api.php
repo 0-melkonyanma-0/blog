@@ -13,6 +13,15 @@ use App\Http\Controllers\Users\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
+    'middleware' => 'api',
+], function () {
+    Route::get('users/{user}/posts', [UserPostController::class, 'showUserPosts']);
+    Route::get('posts', [PostController::class, 'index']);
+    Route::get('posts/{post}', [PostController::class, 'show']);
+});
+
+
+Route::group([
     'middleware' => 'auth:api',
     'prefix' => 'auth'
 ], function () {
@@ -29,8 +38,6 @@ Route::group([
     Route::resource('', UserController::class)->except(['store', 'create'])->parameters([
         '' => 'user'
     ]);
-    Route::get('/{user}/posts', [UserPostController::class, 'showUserPosts']);
-    Route::get('/{user}/posts/{post}', [UserPostController::class, 'showUserPosts']);
     Route::post('/{user}/follow', [UserController::class, 'follow']);
     Route::post('/{user}/un-follow', [UserController::class, 'unFollow']);
     Route::get('/{user}/followers', [UserController::class, 'showFollowers']);
@@ -46,7 +53,7 @@ Route::group([
 
     Route::apiResource('', PostController::class)->parameters([
         '' => 'post'
-    ]);
+    ])->except(['index', 'show']);
     Route::post('/{post}/comments', [CommentController::class, 'store']);
     Route::patch('/comments/{comment}', [CommentController::class, 'update']);
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy']);
