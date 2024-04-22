@@ -98,12 +98,12 @@ class PostService
     public function makeView(Post $post): int
     {
         if (
-            $post->views()
+            !$post->views()
                 ->where(function (Builder $query) use ($post) {
                     $query->where('user_id', '=', auth()->user()->id);
                     $query->where('viewable_id', '=', $post->id);
-                })->first()->user_id
-            !== auth()->user()->id
+                })
+                ->first()
         ) {
             $post->views()->create([
                 'user_id' => auth()->user()->id
