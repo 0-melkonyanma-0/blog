@@ -72,15 +72,4 @@ class UserPostController extends Controller
             'views' => $this->postService->makeView($post)
         ]);
     }
-
-    /**
-     * @param User $user
-     * @return JsonResponse
-     */
-    public function showUserPost(User $user): JsonResponse
-    {
-        return response()->json([
-            'data' => $this->archiveService->showElements($user)
-        ]);
-    }
 }
