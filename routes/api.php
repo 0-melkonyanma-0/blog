@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\DefaultInfoController;
 use App\Http\Controllers\Posts\CategoryController;
 use App\Http\Controllers\Posts\CommentController;
 use App\Http\Controllers\Posts\PostController;
@@ -62,6 +63,7 @@ Route::group([
     Route::patch('/{post}/un-archive', [UserPostController::class, 'unArchivePost']);
 
     Route::post('/{post}/view', [UserPostController::class, 'watch']);
+    Route::get('/default-info', DefaultInfoController::class);
 });
 
 
@@ -70,7 +72,6 @@ Route::group([
 ], function () {
     Route::apiResource('categories', CategoryController::class);
 });
-
 
 Route::group([
     'middleware' => 'api',

@@ -35,9 +35,15 @@ class PostController extends Controller
      */
     public function store(PostRequest $request): JsonResponse
     {
+        if ($request->user()->can('create', Post::class)) {
+            return response()->json([
+                'id' => $this->postService->saveElement(PostRequestDto::from($request))
+            ]);
+        }
+
         return response()->json([
-            'id' => $this->postService->saveElement(PostRequestDto::from($request))
-        ]);
+            'message' => 'You do not have permission to create post.'
+        ], 403);
     }
 
     /**
@@ -56,9 +62,15 @@ class PostController extends Controller
      */
     public function update(PostRequest $request, Post $post): JsonResponse
     {
+        if ($request->user()->can('update', $post)) {
+            return response()->json([
+                'id' => $this->postService->updateElement(PostRequestDto::from($request), $post)
+            ]);
+        }
+
         return response()->json([
-            'id' => $this->postService->updateElement(PostRequestDto::from($request), $post)
-        ]);
+            'message' => 'You do not have permission to update post.'
+        ], 403);
     }
 
     /**
@@ -67,8 +79,14 @@ class PostController extends Controller
      */
     public function destroy(Post $post): JsonResponse
     {
+        if (auth()->user()->can('delete', $post)) {
+            return response()->json([
+                'success' => $this->postService->deleteElement($post)
+            ]);
+        }
+
         return response()->json([
-            'success' => $this->postService->deleteElement($post)
-        ]);
+            'message' => 'You do not have permission to delete post.'
+        ], 403);
     }
 }

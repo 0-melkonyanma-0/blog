@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'permissions' => [
         'categories' => [
@@ -16,12 +18,11 @@ return [
         'admin' => [
             'categories_create', 'categories_edit', 'categories_delete',
             'posts_create', 'posts_read', 'posts_edit', 'posts_delete',
-            'comments_create', 'comments_edit', 'comments_delete',
+            'comments_create', 'comments_edit', 'comments_delete'
         ],
         'user' => [
             'posts_create', 'posts_read', 'posts_edit', 'posts_delete',
-            'comments_create', 'comments_edit', 'comments_delete',
-            'bookmarks_create', 'bookmarks_delete',
+            'comments_create', 'comments_edit', 'comments_delete'
         ]
     ],
 ];

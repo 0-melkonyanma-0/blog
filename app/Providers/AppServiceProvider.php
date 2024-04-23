@@ -11,6 +11,8 @@ use App\Models\Users\User;
 use App\Observers\CommentObserver;
 use App\Observers\PostObserver;
 use App\Observers\UserObserver;
+use App\Policies\Posts\PostPolicy;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -30,5 +32,6 @@ class AppServiceProvider extends ServiceProvider
     {
         Post::observe(PostObserver::class);
         Comment::observe(CommentObserver::class);
+        Gate::policy(Post::class, PostPolicy::class);
     }
 }
