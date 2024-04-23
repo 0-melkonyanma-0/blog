@@ -29,8 +29,14 @@ class CommentController extends Controller
      */
     public function store(CommentRequest $request, Post $post): JsonResponse
     {
+        if ($request->user()->can('create', $post)) {
+            return response()->json([
+                'id' => $this->commentService->saveElement(CommentRequestDto::from($request), $post)
+            ]);
+        }
+
         return response()->json([
-            'id' => $this->commentService->saveElement(CommentRequestDto::from($request), $post)
+            'message' => 'You do not have permission to create this comment.'
         ]);
     }
 
@@ -41,8 +47,14 @@ class CommentController extends Controller
      */
     public function update(CommentRequest $request, Comment $comment): JsonResponse
     {
+        if ($request->user()->can('update', $comment)) {
+            return response()->json([
+                'id' => $this->commentService->updateElement(CommentRequestDto::from($request), $comment)
+            ]);
+        }
+
         return response()->json([
-            'id' => $this->commentService->updateElement(CommentRequestDto::from($request), $comment)
+            'message' => 'You do not have permission to update this comment.'
         ]);
     }
 
@@ -52,8 +64,14 @@ class CommentController extends Controller
      */
     public function destroy(Comment $comment): JsonResponse
     {
+        if (request()->user()->can('update', $comment)) {
+            return response()->json([
+                'success' => $this->commentService->deleteElement($comment)
+            ]);
+        }
+
         return response()->json([
-            'success' => $this->commentService->deleteElement($comment)
+            'message' => 'You do not have permission to delete this comment.'
         ]);
     }
 }

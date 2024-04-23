@@ -79,7 +79,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post): JsonResponse
     {
-        if (auth()->user()->can('delete', $post)) {
+        if (request()->user()->can('delete', $post)) {
             return response()->json([
                 'success' => $this->postService->deleteElement($post)
             ]);
