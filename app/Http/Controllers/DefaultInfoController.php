@@ -11,8 +11,7 @@ class DefaultInfoController extends Controller
 {
     public function __construct(
         private DefaultInfoService $defaultInfoService
-    )
-    {
+    ) {
     }
 
     public function __invoke(): JsonResponse

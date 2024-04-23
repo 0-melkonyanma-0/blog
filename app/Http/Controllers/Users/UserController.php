@@ -19,7 +19,8 @@ class UserController extends Controller
      */
     public function __construct(
         private readonly UserService $userService
-    ) {
+    )
+    {
     }
 
     /**
@@ -27,7 +28,13 @@ class UserController extends Controller
      */
     public function index(): JsonResponse
     {
-        return response()->json(UserRequestDto::collect($this->userService->all()));
+        if (request()->user()->can('viewAny', User::class)) {
+            return response()->json($this->userService->all());
+        }
+
+        return response()->json([
+            'message' => 'You don\'t have permission to view users.'
+        ]);
     }
 
     /**
@@ -85,8 +92,14 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, User $user): JsonResponse
     {
+        if ($request->user()->can('update', $user)) {
+            return response()->json([
+                'id' => $this->userService->updateElement(UserRequestDto::from($request), $user)
+            ]);
+        }
+
         return response()->json([
-            'id' => $this->userService->updateElement(UserRequestDto::from($request), $user)
+            'message' => 'You don\'t have permission to update users.'
         ]);
     }
 
@@ -96,8 +109,14 @@ class UserController extends Controller
      */
     public function destroy(User $user): JsonResponse
     {
+        if (request()->user()->can('delete', $user)) {
+            return response()->json([
+                'success' => $this->userService->deleteElement($user)
+            ]);
+        }
+
         return response()->json([
-            'success' => $this->userService->deleteElement($user)
+            'message' => 'You don\'t have permission to delete user.'
         ]);
     }
 }

@@ -8,6 +8,7 @@ use App\DTO\Posts\CategoryDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Posts\CategoryRequest;
 use App\Models\Posts\Category;
+use App\Models\Posts\Post;
 use App\Services\Posts\CategoryService;
 use Illuminate\Http\JsonResponse;
 
@@ -26,8 +27,14 @@ class CategoryController extends Controller
      */
     public function index(): JsonResponse
     {
+        if (request()->user()->can('viewAny', Category::class)) {
+            return response()->json([
+                'data' => $this->categoryService->all()
+            ]);
+        }
+
         return response()->json([
-            'data' => $this->categoryService->all()
+            'message' => 'You don\'t have permission to view any category.'
         ]);
     }
 
@@ -44,8 +51,14 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request): JsonResponse
     {
+        if ($request->user()->can('create', Category::class)) {
+            return response()->json([
+                'id' => $this->categoryService->saveElement(CategoryDto::from($request))
+            ]);
+        }
+
         return response()->json([
-            'id' => $this->categoryService->saveElement(CategoryDto::from($request))
+            'message' => 'You cannot create a new category . '
         ]);
     }
 
@@ -56,15 +69,27 @@ class CategoryController extends Controller
      */
     public function update(CategoryRequest $request, Category $category): JsonResponse
     {
+        if ($request->user()->can('update', $category)) {
+            return response()->json([
+                'id' => $this->categoryService->updateElement(CategoryDto::from($request), $category)
+            ]);
+        }
+
         return response()->json([
-            'id' => $this->categoryService->updateElement(CategoryDto::from($request), $category)
+            'message' => 'You cannot update a category . '
         ]);
     }
 
     public function destroy(Category $category): JsonResponse
     {
+        if (request()->user()->can('delete', $category)) {
+            return response()->json([
+                'success' => $this->categoryService->deleteElement($category)
+            ]);
+        }
+
         return response()->json([
-            'success' => $this->categoryService->deleteElement($category)
+            'message' => 'You cannot delete a category . '
         ]);
     }
 }
