@@ -21,11 +21,11 @@ class RegisterController extends GenerateToken
             'name' => 'required|string|max:255',
             'username' => ['required', 'string', 'max:255', Rule::unique('users', 'username')],
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed'
+            'password' => 'required|string|min:6|max:255|confirmed'
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
+            return response()->json($validator->errors(), 422);
         }
 
         $user = User::create($validator->validated());
