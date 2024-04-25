@@ -15,11 +15,39 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
+ * 
+ *
  * @property int $id
  * @property string $title
  * @property string $body
  * @property string $cover
  * @method static create(array $toArray)
+ * @property int $author_id
+ * @property string|null $archived_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string|null $deleted_at
+ * @property-read User $author
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Posts\Category> $categories
+ * @property-read int|null $categories_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Posts\Comment> $comments
+ * @property-read int|null $comments_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, View> $views
+ * @property-read int|null $views_count
+ * @method static Builder|Post filter(array $filters)
+ * @method static Builder|Post newModelQuery()
+ * @method static Builder|Post newQuery()
+ * @method static Builder|Post query()
+ * @method static Builder|Post whereArchivedAt($value)
+ * @method static Builder|Post whereAuthorId($value)
+ * @method static Builder|Post whereBody($value)
+ * @method static Builder|Post whereCover($value)
+ * @method static Builder|Post whereCreatedAt($value)
+ * @method static Builder|Post whereDeletedAt($value)
+ * @method static Builder|Post whereId($value)
+ * @method static Builder|Post whereTitle($value)
+ * @method static Builder|Post whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class Post extends Model
 {
