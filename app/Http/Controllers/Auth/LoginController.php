@@ -38,7 +38,7 @@ class LoginController extends GenerateToken
      */
     public function currentUser(): JsonResponse
     {
-        return response()->json(UserSimpleDto::from(auth()->user()));
+        return response()->json(UserSimpleDto::fromModel(auth()->user()));
     }
 
     /**

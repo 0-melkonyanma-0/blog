@@ -16,9 +16,10 @@ use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
- * 
+ *
  *
  * @property int $id
+ * @property string $name
  * @property string $username
  * @property string $email
  * @property \Illuminate\Support\Carbon|null $email_verified_at
@@ -120,7 +121,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function followers(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'subscriptions', 'author_id','follower_id');
+        return $this->belongsToMany(User::class, 'subscriptions', 'author_id', 'follower_id');
     }
 
     public function authors(): BelongsToMany
