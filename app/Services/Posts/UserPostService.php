@@ -18,15 +18,17 @@ use Illuminate\Support\LazyCollection;
 class UserPostService
 {
     /**
-     * @return array|Collection|LazyCollection
+     * @return JsonResponse
      */
-    public function showArchivedElements(): array|Collection|LazyCollection
+    public function showArchivedElements(): JsonResponse
     {
-        return PostDto::collect(Post::where(function(Builder $query) {
-            $query->where('author_id', '=', auth()->user()->id);
+        return response()->json(PostDto::collect(Post::where(function (Builder $query) {
+            $query->where('author_id', auth()->user()->id);
             $query->whereNotNull('archived_at');
             $query->whereNull('deleted_at');
-        })->get());
+        })
+            ->with('author', 'categories', 'views')
+            ->paginate(request()['amount'] ?? 20)));
     }
 
     public function showElements(User $user): JsonResponse
@@ -46,7 +48,7 @@ class UserPostService
      */
     public function archived(Post $post): array
     {
-        if($post->author->id === auth()->user()->id) {
+        if ($post->author->id === auth()->user()->id) {
             $post->update([
                 'archived_at' => Carbon::now()
             ]);
@@ -69,7 +71,7 @@ class UserPostService
      */
     public function unArchived(Post $post): array
     {
-        if($post->author->id === auth()->user()->id) {
+        if ($post->author->id === auth()->user()->id) {
             $post->update([
                 'archived_at' => null
             ]);

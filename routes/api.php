@@ -52,8 +52,6 @@ Route::group([
     'middleware' => 'auth:api',
     'prefix' => 'posts'
 ], function () {
-    Route::get('/archived', [UserPostController::class, 'showArchivedPostsForCurrentUser']);
-
     Route::apiResource('', PostController::class)->parameters([
         '' => 'post'
     ])->except(['index', 'show']);
@@ -73,6 +71,7 @@ Route::group([
     'middleware' => 'auth:api',
 ], function () {
     Route::apiResource('categories', CategoryController::class)->except('index');
+    Route::get('archived/posts', [UserPostController::class, 'showArchivedPostsForCurrentUser']);
 });
 
 Route::group([

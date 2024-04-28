@@ -13,9 +13,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $title
@@ -51,7 +52,7 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class Post extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'title',

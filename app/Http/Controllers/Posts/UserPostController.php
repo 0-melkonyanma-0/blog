@@ -46,9 +46,7 @@ class UserPostController extends Controller
      */
     public function showArchivedPostsForCurrentUser(): JsonResponse
     {
-        return response()->json([
-            'data' => $this->archiveService->showArchivedElements()
-        ]);
+        return $this->archiveService->showArchivedElements();
     }
 
     /**
