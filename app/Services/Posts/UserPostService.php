@@ -8,8 +8,11 @@ use App\DTO\Posts\PostDto;
 use App\Models\Posts\Post;
 use App\Models\Users\User;
 use Carbon\Carbon;
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Enumerable;
 use Illuminate\Support\LazyCollection;
 
 class UserPostService
@@ -26,17 +29,15 @@ class UserPostService
         })->get());
     }
 
-    /**
-     * @param User $user
-     * @return array|Collection|LazyCollection
-     */
-    public function showElements(User $user): array|Collection|LazyCollection
+    public function showElements(User $user): JsonResponse
     {
-        return PostDto::collect(Post::where(function (Builder $query) use ($user) {
-            $query->whereNull('archived_at');
-            $query->whereNull('deleted_at');
-            $query->where('author_id', '=', $user->id);
-        })->get()->load('author', 'categories', 'views'));
+        return response()->json(
+            PostDto::collect(Post::where(function (Builder $query) use ($user) {
+                $query->whereNull('archived_at');
+                $query->whereNull('deleted_at');
+                $query->where('author_id', '=', $user->id);
+            })->with('author', 'categories', 'views')->paginate(request()['amount'] ?? 20))
+        );
     }
 
     /**

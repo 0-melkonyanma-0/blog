@@ -19,7 +19,8 @@ class CategoryController extends Controller
      */
     public function __construct(
         protected readonly CategoryService $categoryService
-    ) {
+    )
+    {
     }
 
     /**
@@ -27,14 +28,8 @@ class CategoryController extends Controller
      */
     public function index(): JsonResponse
     {
-        if (request()->user()->can('viewAny', Category::class)) {
-            return response()->json([
-                'data' => $this->categoryService->all()
-            ]);
-        }
-
         return response()->json([
-            'message' => 'You don\'t have permission to view any category.'
+            'data' => $this->categoryService->all()
         ]);
     }
 

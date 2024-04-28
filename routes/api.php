@@ -17,8 +17,10 @@ Route::group([
     'middleware' => 'api',
 ], function () {
     Route::get('users/{user}/posts', [UserPostController::class, 'showUserPosts']);
+    Route::get('users/{user}', [UserController::class, 'show']);
     Route::get('posts', [PostController::class, 'index']);
     Route::get('posts/{post}', [PostController::class, 'show']);
+    Route::get('categories', [CategoryController::class, 'index']);
 });
 
 
@@ -38,7 +40,7 @@ Route::group([
 ], function () {
     Route::resource('', UserController::class)->except(['store', 'create'])->parameters([
         '' => 'user'
-    ]);
+    ])->except('show');
     Route::post('/{user}/follow', [UserController::class, 'follow']);
     Route::post('/{user}/un-follow', [UserController::class, 'unFollow']);
     Route::get('/{user}/followers', [UserController::class, 'showFollowers']);
@@ -70,7 +72,7 @@ Route::group([
 Route::group([
     'middleware' => 'auth:api',
 ], function () {
-    Route::apiResource('categories', CategoryController::class);
+    Route::apiResource('categories', CategoryController::class)->except('index');
 });
 
 Route::group([

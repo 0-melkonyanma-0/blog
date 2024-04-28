@@ -24,6 +24,7 @@ class PostDto extends Data
      * @param Lazy|Category|null $categories
      * @param Lazy|Comment|null $comments
      * @param Lazy|int|null $views
+     * @param Lazy|string $archived_at
      */
     public function __construct(
         public readonly int $id,
@@ -35,6 +36,7 @@ class PostDto extends Data
         public readonly Lazy|Category|null $categories = null,
         public readonly Lazy|Comment|null $comments = null,
         public readonly Lazy|int|null $views = null,
+        public readonly Lazy|string $archived_at = ''
     ) {
     }
 
@@ -42,7 +44,7 @@ class PostDto extends Data
      * @param Post $post
      * @return self
      */
-    public static function fromModel(Post $post): self
+    public static function fromModel(Post $post): PostDto
     {
         return new self(
             $post->id,
@@ -53,8 +55,9 @@ class PostDto extends Data
             Lazy::whenLoaded('author', $post, fn() => $post->author),
             Lazy::whenLoaded('categories', $post, fn() => $post->categories->select('title')),
             Lazy::whenLoaded('comments', $post, fn() => $post->comments()->with('author')->get()
-                ->select('body', 'author', 'created_at', 'updated_at')->whereNull('deleted_at')),
+                ->select('id', 'body', 'author', 'created_at')->whereNull('deleted_at')),
             Lazy::whenLoaded('views', $post, fn() => $post->views()->count()),
+            Lazy::when(fn() => $post->archived_at != null, fn() => $post->archived_at)
         );
     }
 

@@ -57,9 +57,7 @@ class UserPostController extends Controller
      */
     public function showUserPosts(User $user): JsonResponse
     {
-        return response()->json([
-            'data' => $this->archiveService->showElements($user)
-        ]);
+        return $this->archiveService->showElements($user);
     }
 
     /**

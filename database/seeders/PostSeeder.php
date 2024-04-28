@@ -17,11 +17,11 @@ class PostSeeder extends Seeder
     public function run(): void
     {
         Post::withoutEvents(function () {
-            for ($i = 0; $i < 200; ++$i) {
+            for ($i = 0; $i < 100; ++$i) {
                 $post = Post::create([
                     'title' => Str::random(100),
                     'body' => Str::random(500),
-                    'author_id' => User::all()->first()->id
+                    'author_id' => User::all()->last()->id
                 ]);
 
                 $post->categories()->sync([1, 2, 3]);
