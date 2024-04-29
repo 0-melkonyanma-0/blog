@@ -12,6 +12,7 @@ class CategoryDto extends Data
      * @param string $title
      */
     public function __construct(
+        public readonly int $id,
         public readonly string $title
     ) {
     }

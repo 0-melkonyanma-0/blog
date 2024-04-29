@@ -12,13 +12,11 @@ class UserRequestDto extends Data
      * @param string $name
      * @param string $username
      * @param string $email
-     * @param string $password
      */
     public function __construct(
         public readonly string $name,
-        public readonly string $username = '',
-        public readonly string $email = '',
-        public readonly string $password = ''
+        public readonly string $username,
+        public readonly string $email,
     ) {
     }
 }

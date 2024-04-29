@@ -40,7 +40,7 @@ Route::group([
 ], function () {
     Route::resource('', UserController::class)->except(['store', 'create'])->parameters([
         '' => 'user'
-    ])->except('show');
+    ])->except('show', 'update');
     Route::post('/{user}/follow', [UserController::class, 'follow']);
     Route::post('/{user}/un-follow', [UserController::class, 'unFollow']);
     Route::get('/{user}/followers', [UserController::class, 'showFollowers']);
@@ -55,6 +55,9 @@ Route::group([
     Route::apiResource('', PostController::class)->parameters([
         '' => 'post'
     ])->except(['index', 'show']);
+
+    Route::get('/{post}/edit', [PostController::class, 'edit']);
+
     Route::post('/{post}/comments', [CommentController::class, 'store']);
     Route::patch('/comments/{comment}', [CommentController::class, 'update']);
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy']);
@@ -72,6 +75,7 @@ Route::group([
 ], function () {
     Route::apiResource('categories', CategoryController::class)->except('index');
     Route::get('archived/posts', [UserPostController::class, 'showArchivedPostsForCurrentUser']);
+    Route::patch('users/{user}',[UserController::class, 'update']);
 });
 
 Route::group([

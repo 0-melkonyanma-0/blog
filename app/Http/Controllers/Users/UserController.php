@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Users;
 
 use App\DTO\Users\UserRequestDto;
-use App\DTO\Users\UserSimpleDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Users\UserRequest;
 use App\Models\Users\User;

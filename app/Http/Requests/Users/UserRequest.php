@@ -25,9 +25,18 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'username' => ['nullable', 'string', 'max:255', Rule::unique('users', 'id')],
-            'email' => 'required|nullable|string|email|max:255|unique:users,email',
-            'password' => 'nullable|string|min:6|confirmed'
+            'name' => [
+                'bail', 'required', 'string', 'max:255'
+            ],
+            'username' => [
+                'bail', 'required', 'string', 'max:255',
+                Rule::unique('users', 'username')->ignore($this->user()->id)
+            ],
+            'email' => [
+                'bail', 'required', 'string', 'email', 'max:255',
+                Rule::unique('users', 'username')->ignore($this->user()->id)
+            ],
+            'password' => ['bail', 'nullable', 'string', 'min:6', 'max:255', 'confirmed']
         ];
     }
 }

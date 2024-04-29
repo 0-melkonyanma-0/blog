@@ -56,6 +56,21 @@ class PostController extends Controller
     }
 
     /**
+     * @param Post $post
+     * @return JsonResponse
+     */
+    public function edit(Post $post): JsonResponse
+    {
+        if (request()->user()->can('update', $post)) {
+            return response()->json($this->postService->element($post));
+        }
+
+        return response()->json([
+            'message' => 'You do not have permission to update post.'
+        ], 403);
+    }
+
+    /**
      * @param PostRequest $request
      * @param Post $post
      * @return JsonResponse
