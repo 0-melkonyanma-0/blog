@@ -16,13 +16,13 @@ class PostRequestDto extends Data
      * @param string $title
      * @param string $body
      * @param array $categories
-     * @param string $cover
+     * @param string|null $cover
      */
     public function __construct(
         public readonly string $title,
         public readonly string $body,
         public readonly array  $categories,
-        public readonly string $cover = '',
+        public readonly ?string $cover = '',
     ) {
     }
 }

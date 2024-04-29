@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->id();
             $table->string('title');
             $table->text('body');
-            $table->text('cover')->default('');
+            $table->text('cover')->nullable()->default('');
             $table->unsignedBigInteger('author_id');
             $table->foreign('author_id')->references('id')->on('users');
 

@@ -18,7 +18,7 @@ class PostDto extends Data
      * @param int $id
      * @param string $title
      * @param string $body
-     * @param string $cover
+     * @param string|null $cover
      * @param Lazy|string|null $created_at
      * @param Lazy|User|null $author
      * @param Lazy|Category|null $categories
@@ -30,7 +30,7 @@ class PostDto extends Data
         public readonly int $id,
         public readonly string $title,
         public readonly string $body,
-        public readonly string $cover = '',
+        public readonly ?string $cover = '',
         public readonly Lazy|string|null $created_at = null,
         public readonly Lazy|User|null $author = null,
         public readonly Lazy|Category|null $categories = null,

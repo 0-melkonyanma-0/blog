@@ -36,7 +36,12 @@ class UserService
      */
     public function updateElement(UserRequestDto $userRequestDto, User $user): int
     {
-        $user->update($userRequestDto->toArray());
+        $info = $userRequestDto->toArray();
+        if (!$info['password']) {
+            unset($info['password']);
+        }
+
+        $user->update($info);
         return $user->id;
     }
 
@@ -98,7 +103,10 @@ class UserService
     public function getFollowers(User $user): array
     {
         return [
-            'data' => UserSimpleDto::collect($user->followers()->get()),
+            'data' => [
+                'count' => $user->followers()->count(),
+                'followers' => $user->followers()->pluck('username')
+            ],
             'status' => 200
         ];
     }

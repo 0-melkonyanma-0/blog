@@ -27,6 +27,7 @@ class UserPostService
             $query->whereNotNull('archived_at');
             $query->whereNull('deleted_at');
         })
+            ->filter(request(['search']))
             ->with('author', 'categories', 'views')
             ->paginate(request()['amount'] ?? 20)));
     }
@@ -38,7 +39,10 @@ class UserPostService
                 $query->whereNull('archived_at');
                 $query->whereNull('deleted_at');
                 $query->where('author_id', '=', $user->id);
-            })->with('author', 'categories', 'views')->paginate(request()['amount'] ?? 20))
+            })
+                ->filter(request(['search']))
+                ->with('author', 'categories', 'views')
+                ->paginate(request()['amount'] ?? 20))
         );
     }
 
